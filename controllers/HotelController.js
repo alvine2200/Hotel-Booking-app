@@ -73,7 +73,7 @@ const editHotel = async (req, res) => {
     });
   }
 };
-
+//update hotels
 const updateHotel = async (req, res) => {
   const id = req.params;
   try {
@@ -101,6 +101,7 @@ const updateHotel = async (req, res) => {
   }
 };
 
+//deleteHotels
 const deleteHotel = async (req, res) => {
   const id = req.params;
   try {
