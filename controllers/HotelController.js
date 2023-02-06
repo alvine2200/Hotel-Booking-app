@@ -51,7 +51,7 @@ const createHotel = async (req, res) => {
 
 //edit hotel
 const editHotel = async (req, res) => {
-  const id = req.params;
+  const id = req.params.id;
   try {
     const hotel = await Hotel.findById(id);
     if (hotel) {
@@ -75,12 +75,16 @@ const editHotel = async (req, res) => {
 };
 //update hotels
 const updateHotel = async (req, res) => {
-  const id = req.params;
+  const id = req.params.id;
   try {
-    const hotel = await Hotel.findByIdAndUpdate({ _id: id }, ...req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const hotel = await Hotel.findByIdAndUpdate(
+      id,
+      { $set: req.body },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
     if (hotel) {
       return res.status(201).json({
         status: "failed",
@@ -103,7 +107,7 @@ const updateHotel = async (req, res) => {
 
 //deleteHotels
 const deleteHotel = async (req, res) => {
-  const id = req.params;
+  const id = req.params.id;
   try {
     const hotel = await Hotel.findByIdAndDelete(id);
     if (hotel) {

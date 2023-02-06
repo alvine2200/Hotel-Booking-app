@@ -1,4 +1,4 @@
-const router = require("express").Router();
+const hotelRouter = require("express").Router();
 const {
   getHotels,
   createHotel,
@@ -7,10 +7,10 @@ const {
   deleteHotel,
 } = require("../controllers/HotelController");
 
-router.route("/").get(getHotels);
-router.route("/create").post(createHotel);
-router.route("/:id/edit").get(editHotel);
-router.route("/:id/update").put(updateHotel);
-router.route("/:id/delete").delete(deleteHotel);
+hotelRouter.route("/").get(getHotels);
+hotelRouter.route("/create").post(createHotel);
+hotelRouter.route("/:id/edit").get(editHotel);
+hotelRouter.route("/:id/update").put(updateHotel);
+hotelRouter.route("/:id/delete").delete(deleteHotel);
 
-module.exports = router;
+module.exports = hotelRouter;
