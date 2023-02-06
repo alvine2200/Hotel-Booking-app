@@ -1,13 +1,9 @@
 const express = require("express");
-const User = require("../models/UserModel");
+const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 
 const register = async (req, res) => {
   try {
-    // const { name, email, password } = req.body;
-    // const salt = await bcrypt.genSalt(10);
-    // const hashedPassword = await bcrypt.hash(password, salt);
-    // const tempUser = await { name, email, password: hashedPassword };
     const checkEmail = async function () {
       const { email } = req.body;
       const mail = await User.findOne({ email });
@@ -69,8 +65,5 @@ const login = async (req, res) => {
   }
 };
 
-const home = async (req, res) => {
-  res.send("registration page");
-};
 
-module.exports = { home, login, register };
+module.exports = { login, register };
