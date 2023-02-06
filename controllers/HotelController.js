@@ -1,5 +1,29 @@
 const Hotel = require("../models/Hotel");
 
+//all hotels present
+const getHotels = async (req, res) => {
+  try {
+    const hotels = await Hotel.find();
+    if (hotels) {
+      return res.status(201).json({
+        status: "failed",
+        msg: "all hotels fetched successfully",
+        data: hotels,
+      });
+    } else {
+      return res
+        .status(500)
+        .json({ status: "failed", msg: "something went wrong, try again" });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      status: "failed",
+      msg: "something went wrong, try again",
+      error: error.message,
+    });
+  }
+};
 //create hotel
 const createHotel = async (req, res) => {
   try {
@@ -101,4 +125,4 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.export = { createHotel, editHotel, updateHotel, deleteHotel };
+module.export = { getHotels, createHotel, editHotel, updateHotel, deleteHotel };
