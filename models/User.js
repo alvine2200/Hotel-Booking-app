@@ -17,6 +17,10 @@ const UserSchema = new mongoose.Schema({
     },
     maxlength: [30, "email should not be more than 30 characters"],
   },
+  isAdmin: {
+    type: Boolean,
+    default: false,
+  },
   password: {
     type: String,
     required: true,

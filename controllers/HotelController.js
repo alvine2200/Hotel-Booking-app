@@ -87,7 +87,7 @@ const updateHotel = async (req, res) => {
     );
     if (hotel) {
       return res.status(201).json({
-        status: "failed",
+        status: "success",
         msg: "hotel details updated successfully",
         data: hotel,
       });
@@ -130,4 +130,10 @@ const deleteHotel = async (req, res) => {
   }
 };
 
-module.export = { getHotels, createHotel, editHotel, updateHotel, deleteHotel };
+module.exports = {
+  getHotels,
+  createHotel,
+  editHotel,
+  updateHotel,
+  deleteHotel,
+};
