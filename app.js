@@ -13,7 +13,7 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/user", userRouter);
+app.use("/api/v1/user", auth, userRouter);
 app.use("/api/v1/hotel", auth, hotelRouter);
 
 const start = async () => {

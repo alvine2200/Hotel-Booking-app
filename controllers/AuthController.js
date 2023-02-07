@@ -21,7 +21,7 @@ const register = async (req, res) => {
         status: "success",
         message: "User created successfully",
         name: user.getName(),
-        data: others,
+        data: user,
         token: token,
       });
     }

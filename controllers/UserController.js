@@ -85,6 +85,7 @@ const updateUser = async (req, res) => {
         runValidators: true,
       }
     );
+    console.log(user);
     if (user) {
       return res.status(201).json({
         status: "failed",
@@ -99,7 +100,7 @@ const updateUser = async (req, res) => {
   } catch (error) {
     return res.status(500).json({
       status: "failed",
-      msg: "something went wrong, try again",
+      msg: "something went wrong, try again ...",
       error: error.message,
     });
   }
@@ -114,7 +115,7 @@ const deleteUser = async (req, res) => {
       return res.status(201).json({
         status: "failed",
         msg: "user details deleted successfully",
-        data: user,
+        data: [],
       });
     } else {
       return res

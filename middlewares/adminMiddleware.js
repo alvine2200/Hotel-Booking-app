@@ -2,7 +2,7 @@ const User = require("../models/User");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const auth = async (req, res, next) => {
+const admin = async (req, res, next) => {
   //check headers if it contains valid token
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer")) {
@@ -15,7 +15,13 @@ const auth = async (req, res, next) => {
     //verify jwt token
     const payload = jwt.verify(token, process.env.JWT_TOKEN);
     req.user = { userId: payload.userId, isAdmin: payload.isAdmin };
-    next();
+    if (req.user.isAdmin == true) {
+      next();
+    } else {
+      return res
+        .status(403)
+        .json({ status: "failed", message: "You are not an admin" });
+    }
   } catch (error) {
     return res
       .status(403)
@@ -23,4 +29,4 @@ const auth = async (req, res, next) => {
   }
 };
 
-module.exports = auth;
+module.exports = admin;
