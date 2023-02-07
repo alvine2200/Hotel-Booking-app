@@ -5,8 +5,8 @@ const jwt = require("jsonwebtoken");
 const register = async (req, res) => {
   try {
     const checkEmail = async function () {
-      const { email } = req.body;
-      const mail = await User.findOne({ email });
+      const email = req.body.email;
+      const mail = await User.findOne({ email: email });
       if (mail) {
         return res
           .status(500)
@@ -21,32 +21,26 @@ const register = async (req, res) => {
         status: "success",
         message: "User created successfully",
         name: user.getName(),
-        data: user,
+        data: others,
         token: token,
       });
     }
   } catch (error) {
-    return res.status(500).json({ status: "failed", message: error });
+    return res.status(500).json({ status: "failed", message: error.message });
   }
 };
 
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
-      return res.status(400).json({
-        status: "failed",
-        message: "Please complete your details and submit again",
-      });
-    }
-    const user = await User.findOne({ email });
+    const { email } = req.body;
+    const user = await User.findOne({ email: email });
     if (!user) {
       return res.status(401).json({
         status: "failed",
         message: "User not found, Enter correct details",
       });
     }
-    const isMatch = await user.isPasswordCorrect(password);
+    const isMatch = await user.isPasswordCorrect(req.body.password);
     if (!isMatch) {
       return res.status(401).json({
         status: "failed",
@@ -54,16 +48,19 @@ const login = async (req, res) => {
       });
     }
     const token = await user.createJwt();
+    const { password, isAdmin, ...others } = user._doc;
+
     return res
       .status(200)
-      .json({ status: "successful", data: user, token: token });
+      .json({ status: "successful", data: others, token: token });
   } catch (error) {
     console.log(error);
-    return res
-      .status(401)
-      .json({ status: "failed", message: "something went wrong" });
+    return res.status(401).json({
+      status: "failed",
+      error: error.message,
+      message: "something went wrong",
+    });
   }
 };
-
 
 module.exports = { login, register };

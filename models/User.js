@@ -3,29 +3,32 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const UserSchema = new mongoose.Schema({
-  name: {
-    type: String,
-    required: true,
-    maxlength: [30, "Name should not be more than 30 characters"],
-  },
-  email: {
-    type: String,
-    required: true,
-    index: {
-      unique: true,
+const UserSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      maxlength: [30, "Name should not be more than 30 characters"],
     },
-    maxlength: [30, "email should not be more than 30 characters"],
+    email: {
+      type: String,
+      required: true,
+      index: {
+        unique: true,
+      },
+      maxlength: [30, "email should not be more than 30 characters"],
+    },
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  isAdmin: {
-    type: Boolean,
-    default: false,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  { timestamps: true }
+);
 
 UserSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
