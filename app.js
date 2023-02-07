@@ -4,6 +4,7 @@ const conn = process.env.MONGO_URL;
 const auth = require("./middlewares/authMiddleware");
 const authRouter = require("./routes/authRouter");
 const hotelRouter = require("./routes/hotelRouter");
+const userRouter = require("./routes/userRouter");
 
 const express = require("express");
 const app = express();
@@ -12,7 +13,8 @@ const port = process.env.PORT || 3000;
 app.use(express.json());
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/hotel", hotelRouter);
+app.use("/api/v1/user", userRouter);
+app.use("/api/v1/hotel", auth, hotelRouter);
 
 const start = async () => {
   try {

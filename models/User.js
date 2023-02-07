@@ -42,7 +42,7 @@ UserSchema.pre("save", async function (next) {
 //create token respective of users
 UserSchema.methods.createJwt = async function () {
   return jwt.sign(
-    { userId: this._id, name: this.name },
+    { userId: this._id, isAdmin: this.isAdmin },
     process.env.JWT_TOKEN,
     {
       expiresIn: process.env.JWT_TIME,
