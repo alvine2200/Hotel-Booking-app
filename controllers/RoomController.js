@@ -1,6 +1,7 @@
+const Hotel = require("../models/Hotel");
 const Room = require("../models/Room");
 
-//all hotels present
+//all rooms present
 const getRooms = async (req, res) => {
   try {
     const rooms = await Room.find();
@@ -24,10 +25,18 @@ const getRooms = async (req, res) => {
     });
   }
 };
-//create hotel
+//create rooms
 const createRoom = async (req, res) => {
   try {
+    const hotelId = req.params.hotelId;
     const room = await Room.create({ ...req.body });
+    const hotel = await Hotel.findByIdAndUpdate(
+      hotelId,
+      {
+        $push: { room: room._id },
+      },
+      { new: true, runValidators: true }
+    );
     if (room) {
       return res.status(201).json({
         status: "failed",
@@ -49,7 +58,7 @@ const createRoom = async (req, res) => {
   }
 };
 
-//edit hotel
+//edit room
 const editRoom = async (req, res) => {
   const id = req.params.id;
   try {
@@ -73,7 +82,7 @@ const editRoom = async (req, res) => {
     });
   }
 };
-//update hotels
+//update room
 const updateRoom = async (req, res) => {
   const id = req.params.id;
   try {
@@ -105,7 +114,7 @@ const updateRoom = async (req, res) => {
   }
 };
 
-//deleteHotels
+//delete room
 const deleteRoom = async (req, res) => {
   const id = req.params.id;
   try {
@@ -130,4 +139,4 @@ const deleteRoom = async (req, res) => {
   }
 };
 
-module.export = { getRooms, createRoom, editRoom, updateRoom, deleteRoom };
+module.exports = { getRooms, createRoom, editRoom, updateRoom, deleteRoom };
