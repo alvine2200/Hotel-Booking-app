@@ -7,7 +7,7 @@ const getRooms = async (req, res) => {
     const rooms = await Room.find();
     if (rooms) {
       return res.status(201).json({
-        status: "failed",
+        status: "success",
         msg: "all rooms fetched successfully",
         data: rooms,
       });
@@ -39,7 +39,7 @@ const createRoom = async (req, res) => {
     );
     if (room) {
       return res.status(201).json({
-        status: "failed",
+        status: "success",
         msg: "New room created successfully",
         data: room,
       });
@@ -65,7 +65,7 @@ const editRoom = async (req, res) => {
     const room = await Room.findById(id);
     if (room) {
       return res.status(200).json({
-        status: "failed",
+        status: "success",
         msg: "room details fetched successfully",
         data: room,
       });
@@ -96,7 +96,7 @@ const updateRoom = async (req, res) => {
     );
     if (room) {
       return res.status(201).json({
-        status: "failed",
+        status: "success",
         msg: "room details updated successfully",
         data: room,
       });
@@ -117,11 +117,15 @@ const updateRoom = async (req, res) => {
 //delete room
 const deleteRoom = async (req, res) => {
   const id = req.params.id;
+  const hotelId = req.params.hotelId;
   try {
     const room = await Room.findByIdAndDelete(id);
+    const hotel = await Hotel.findByIdAndUpdate(hotelId, {
+      $pull: { room: id },
+    });
     if (room) {
       return res.status(201).json({
-        status: "failed",
+        status: "success",
         msg: "room details deleted successfully",
         data: room,
       });
