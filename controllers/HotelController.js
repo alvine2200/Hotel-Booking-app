@@ -132,18 +132,17 @@ const deleteHotel = async (req, res) => {
 
 const countByType = async (req, res) => {
   try {
-    const hotels = await Hotel.find();
-    if (hotels) {
-      return res.status(201).json({
-        status: "failed",
-        msg: "all hotels fetched successfully",
-        data: hotels,
-      });
-    } else {
-      return res
-        .status(500)
-        .json({ status: "failed", msg: "something went wrong, try again" });
-    }
+    const hotels = await Hotel.countDocuments({ type: "hotel" });
+    const apartment = await Hotel.countDocuments({ type: "apartment" });
+    const clubs = await Hotel.countDocuments({ type: "clubs" });
+    const park = await Hotel.countDocuments({ type: "park" });
+    const data = { hotels, apartment, clubs, park };
+
+    return res.status(201).json({
+      status: "failed",
+      msg: "all hotels fetched successfully",
+      data: data,
+    });
   } catch (error) {
     console.log(error);
     return res.status(500).json({
